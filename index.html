@@ -11,12 +11,11 @@
     <div id="notis"></div>
     <div id="err"></div>
     <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
-    <script src="firebase-messaging-sw.js"></script>
     <script>
-        MsgElem = document.getElementById("msg");
-        TokenElem = document.getElementById("token");
-        NotisElem = document.getElementById("notis");
-        ErrElem = document.getElementById("err");
+        MsgElem = document.getElementById("msg")
+        TokenElem = document.getElementById("token")
+        NotisElem = document.getElementById("notis")
+        ErrElem = document.getElementById("err")
         // Initialize Firebase
         // TODO: Replace with your project's customized code snippet
         var config = {
@@ -27,6 +26,7 @@
             storageBucket: "",
             messagingSenderId: "211236340357",
             appId: "1:211236340357:web:dc00f56eabf36911d69fec"
+
         };
         firebase.initializeApp(config);
 
@@ -36,7 +36,7 @@
             .then(function () {
                 MsgElem.innerHTML = "Notification permission granted." 
                 console.log("Notification permission granted.");
-                
+
                 // get the token in the form of promise
                 return messaging.getToken()
             })
@@ -54,6 +54,6 @@
         });
     </script>
 
-    </body>
+    <body>
 
 </html>
