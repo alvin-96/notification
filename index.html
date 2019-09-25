@@ -33,10 +33,10 @@
 
         const messaging = firebase.messaging();
 
-        messaging.requestPermission().then((permission) => {
+        Notification.requestPermission().then((permission) => {
         if (permission === 'granted') {
             console.log('Notification permission granted.');
-           getRegToken();
+            console.log(messaging);
         } else {
             console.log('Unable to get permission to notify.');
         }
