@@ -1,80 +1,60 @@
+<!DOCTYPE html>
 <html>
-<title>Firebase Messaging Demo</title>
-<style>
-    div {
-        margin-bottom: 15px;
-    }
-</style>
-<body>
-    <div id="token"></div>
-    <div id="msg"></div>
-    <div id="notis"></div>
-    <div id="err"></div>
-    <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+
+<head>
+    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase-messaging.js"></script>
     <script>
-        MsgElem = document.getElementById("msg")
-        TokenElem = document.getElementById("token")
-        NotisElem = document.getElementById("notis")
-        ErrElem = document.getElementById("err")
-        // Initialize Firebase
-        // TODO: Replace with your project's customized code snippet
-        var config = {
-            apiKey: "AIzaSyBdUtETUZtlrFMYjgKednR-DREOyUIH63A",
-            authDomain: "notification-6ab48.firebaseapp.com",
-            databaseURL: "https://notification-6ab48.firebaseio.com",
-            projectId: "notification-6ab48",
-            storageBucket: "",
-            messagingSenderId: "211236340357",
-            appId: "1:211236340357:web:dc00f56eabf36911d69fec"
-
-
-        };
-        firebase.initializeApp(config);
-
+        firebase.initializeApp({
+            'messagingSenderId': 'SENDER_ID'
+        })
         const messaging = firebase.messaging();
-
-        Notification.requestPermission().then((permission) => {
-        if (permission === 'granted') {
-            console.log('Notification permission granted.');
-           getRegToken();
-        } else {
-            console.log('Unable to get permission to notify.');
+        function initFirebaseMessagingRegistration() {
+            messaging
+                .requestPermission()
+                .then(function () {
+                    messageElement.innerHTML = "Got notification permission";
+                    console.log("Got notification permission");
+                    return messaging.getToken();
+                })
+                .then(function (token) {
+                    // print the token on the HTML page
+                    tokenElement.innerHTML = "Token is " + token;
+                })
+                .catch(function (err) {
+                    errorElement.innerHTML = "Error: " + err;
+                    console.log("Didn't get notification permission", err);
+                });
         }
+        messaging.onMessage(function (payload) {
+            console.log("Message received. ", JSON.stringify(payload));
+            notificationElement.innerHTML = notificationElement.innerHTML + " " + payload.data.notification;
         });
-
-        function getRegToken(argument)
-        {
-            // Get Instance ID token. Initially this makes a network call, once retrieved
-// subsequent calls to getToken will return from cache.
-messaging.getToken().then((currentToken) => {
-  if (currentToken) {
-    // sendTokenToServer(currentToken);
-    console.log(currentToken);
-  } else {
-    // Show permission request.
-    console.log('No Instance ID token available. Request permission to generate one.');
-    setTokenSentToServer(false);
-  }
-}).catch((err) => {
-  console.log('An error occurred while retrieving token. ', err);
-  setTokenSentToServer(false);
-});
-
-        }
-
-        function setTokenSentToServer(sent)
-        {
-            window.localStorage.setItem('sentToServer',sent ? 1:0);
-        }
-
-
-
-       
-
-
-
+        messaging.onTokenRefresh(function () {
+            messaging.getToken()
+                .then(function (refreshedToken) {
+                    console.log('Token refreshed.');
+                    tokenElement.innerHTML = "Token is " + refreshedToken;
+                }).catch(function (err) {
+                    errorElement.innerHTML = "Error: " + err;
+                    console.log('Unable to retrieve refreshed token ', err);
+                });
+        });
     </script>
+</head>
 
-    <body>
+<body>
+    <h1>This is a test page</h1>
+    <div id="token" style="color:lightblue"></div>
+    <div id="message" style="color:lightblue"></div>
+    <div id="notification" style="color:green"></div>
+    <div id="error" style="color:red"></div>
+    <script>
+        messageElement = document.getElementById("message")
+        tokenElement = document.getElementById("token")
+        notificationElement = document.getElementById("notification")
+        errorElement = document.getElementById("error")
+    </script>
+    <button onclick="initFirebaseMessagingRegistration()">Enable Firebase Messaging</button>
 
 </html>
