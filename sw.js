@@ -33,7 +33,7 @@ self.addEventListener('push', function(event) {
     const options = {
       body: '你订阅的文章已更新，点击查看',
       icon: 'https://www.goody25.com//img/logo/app_logo_mobile.png',
-      badge: 'images/badge.png'
+      badge: 'images/goody25.png'
     };
   
     const notificationPromise = self.registration.showNotification(title, options);
