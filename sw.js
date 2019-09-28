@@ -29,10 +29,10 @@ self.addEventListener('push', function(event) {
     console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
     console.log(event.data);
   
-    const title = 'Push Codelab';
+    const title = '最新消息';
     const options = {
-      body: 'Yay it works.',
-      icon: 'images/icon.png',
+      body: '你订阅的文章已更新，点击查看',
+      icon: 'https://www.goody25.com//img/logo/app_logo_mobile.png',
       badge: 'images/badge.png'
     };
   
@@ -47,6 +47,6 @@ self.addEventListener('push', function(event) {
     event.notification.close();
   
     event.waitUntil(
-      clients.openWindow('https://developers.google.com/web/')
+      clients.openWindow('https://www.goody25.com')
     );
   });
