@@ -21,7 +21,7 @@
 
 'use strict';
 
-const applicationServerPublicKey = 'BIaEWEZH9Uv-HnqnHHmIQ60L7tC9bATcUILE85KF0sWiqduimsfFoLhNCZbtyCNC85v0N3PtQm4N6SnRPOyDyIE';
+const applicationServerPublicKey = 'BNbrqzbU0Lzq94zpG7BVOsQW78hIF7iGArw95C0ZOvhr9JXBDuNlIk5W5N7KdP6e8AvqcF5LoWgcbyJApBPy8A8';
 
 
 
